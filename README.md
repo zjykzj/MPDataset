@@ -15,11 +15,11 @@
   <a href="http://commitizen.github.io/cz-cli/"><img src="https://img.shields.io/badge/commitizen-friendly-brightgreen.svg"></a>
 </p>
 
-Path `mp/` provides a simple implementation. You can find the test method under path `test/`.
+Path `mp/` provides a simple implementation. You can find the test under path `tests/`.
 
 The complete `MPDataset` implementation has been integrated into the [zcls](https://github.com/ZJCV/ZCls) warehouse. You can view it on [mp_dataset.py](https://github.com/ZJCV/ZCls/blob/master/zcls/data/datasets/mp_dataset.py) and [MPDataset](https://zcls.readthedocs.io/en/latest/mp_dataset/)
 
-The following are the test results based on cifar100:
+The following are the test results based on `cifar100`:
 
 |    arch   |     dataset    | shuffle | gpu |  top1  |  top5  |
 |:---------:|:--------------:|:-------:|:---:|:------:|:------:|
@@ -37,8 +37,17 @@ The following are the test results based on cifar100:
 | sfv1_3g1x | GeneralDataset |   yes   |  4  | 61.570 | 86.970 |
 
 * for `dataset` item, refer to [Dataset](https://zcls.readthedocs.io/en/latest/)
+  * `CIFAR100`: use the data class provided by pytorch
+  * `MPDataset`: use a custom iterable data class
+  * `GeneralDataset`: A wrapper class uses ImageFolder
+* the complete configuration file is located at `configs/`
 
-There is no obvious difference in accuracy, even better (because I created the data file according to the original data loading order, so I can get better results by disrupting the data first)
+There is no obvious difference in accuracy for MPDataset and GeneralDataset, even better (because I created the data file according to the original data loading order, so I can get better results by disrupting the data first)
+
+There is a very strange period, that is, using the official cifar file can always get better results
+
+* [Why is the accuracy difference so much when I use the image data set and pytorch’s own data set directly?](https://discuss.pytorch.org/t/why-is-the-accuracy-difference-so-much-when-i-use-the-image-data-set-and-pytorchs-own-data-set-directly/92368)
+* [Why is the accuracy difference so much when I use the image data set and pytorch's own data set directly?](https://stackoverflow.com/questions/63352551/why-is-the-accuracy-difference-so-much-when-i-use-the-image-data-set-and-pytorch)
 
 ## Table of Contents
 
