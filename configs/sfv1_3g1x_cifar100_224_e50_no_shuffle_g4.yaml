@@ -1,0 +1,83 @@
+NUM_GPUS: 4
+NUM_NODES: 1
+RANK_ID: 0
+DIST_BACKEND: "nccl"
+RNG_SEED: 1
+OUTPUT_DIR: 'outputs/mp/sfv1_3g1x_cifar100_224_e50_no_shuffle_g4'
+TRAIN:
+  LOG_STEP: 10
+  GRADIENT_ACCUMULATE_STEP: 1
+  MAX_EPOCH: 50
+  SAVE_EPOCH: 1
+  EVAL_EPOCH: 1
+  RESUME: False
+  USE_TENSORBOARD: True
+DATASET:
+  NAME: 'CIFAR100'
+  TRAIN_ROOT: './data/cifar'
+  TEST_ROOT: './data/cifar'
+  TOP_K: (1, 5)
+TRANSFORM:
+  TRAIN_METHODS: ('Resize', 'RandomCrop', 'RandomHorizontalFlip', 'AUTO_AUGMENT', 'ToTensor', 'Normalize')
+  TEST_METHODS: ('Resize', 'CenterCrop', 'ToTensor', 'Normalize')
+  TRAIN_RESIZE: (224, )
+  TEST_RESIZE: (224, )
+  TRAIN_CROP: (224, 224)
+  TEST_CROP: (224, 224)
+  AUGMENT_POLICY: "cifar10"
+  MEAN: (0.445, 0.445, 0.445)
+  STD: (0.225, 0.225, 0.225)
+DATALOADER:
+  TRAIN_BATCH_SIZE: 32
+  TEST_BATCH_SIZE: 32
+  NUM_WORKERS: 4
+  RANDOM_SAMPLE: False
+  PREFETCHER: True
+MODEL:
+  CONV:
+    TYPE: 'Conv2d'
+  NORM:
+    TYPE: 'BatchNorm2d'
+    SYNC_BN: False
+    FIX_BN: False
+    PARTIAL_BN: False
+  ACT:
+    TYPE: 'ReLU'
+  COMPRESSION:
+    ROUND_NEAREST: 8
+  BACKBONE:
+    NAME: 'ShuffleNetV1'
+    ARCH: 'shufflenetv1_3g1x'
+    IN_PLANES: 3
+    BASE_PLANES: 32
+    DOWNSAMPLES: (1, 1, 1)
+    WITH_GROUPS: (0, 1, 1)
+  HEAD:
+    NAME: 'GeneralHead2D'
+    FEATURE_DIMS: 960
+    DROPOUT_RATE: 0.2
+    NUM_CLASSES: 100
+  RECOGNIZER:
+    NAME: 'ShuffleNetV1'
+    PRELOADED: ""
+    PRETRAINED: ""
+    PRETRAINED_NUM_CLASSES: 1000
+  CRITERION:
+    NAME: 'CrossEntropyLoss'
+OPTIMIZER:
+  NAME: 'SGD'
+  LR: 0.04
+  MOMENTUM: 0.9
+  WEIGHT_DECAY:
+    DECAY: 1e-5
+    NO_BIAS: True
+    NO_NORM: True
+LR_SCHEDULER:
+  NAME: 'MultiStepLR'
+  IS_WARMUP: True
+  GAMMA: 0.1
+  MULTISTEP_LR:
+    MILESTONES: [ 10, 15, 20 ]
+  WARMUP:
+    ITERATION: 5
+    MULTIPLIER: 1.0
