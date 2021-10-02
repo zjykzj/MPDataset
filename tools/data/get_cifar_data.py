@@ -14,7 +14,9 @@ from PIL import Image
 from tqdm import tqdm
 
 from zcls.config import cfg
+from zcls.config.key_word import KEY_IMGS, KEY_TARGETS, KEY_CLASSES
 from zcls.data.datasets.build import build_dataset
+
 
 
 def get_dataset(cfg_file, is_train=False):
@@ -66,9 +68,9 @@ def process_v2(dataset, dst_root):
         target_list.append(target)
 
     return {
-        'imgs': img_list,
-        'classes': class_list,
-        'targets': target_list
+        KEY_IMGS: img_list,
+        KEY_CLASSES: class_list,
+        KEY_TARGETS: target_list
     }
 
 
