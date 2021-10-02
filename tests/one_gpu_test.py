@@ -25,7 +25,6 @@ def process_no_shuffle():
     # [tensor([0, 1, 2]), tensor([3, 4, 5]), tensor([6, 7, 8]), tensor([ 9, 10])]
 
     # Mult-process loading with two worker processes
-    # Worker 0 fetched [3, 4].  Worker 1 fetched [5, 6].
     print(list(DataLoader(ds, num_workers=2, batch_size=3)))
     # [tensor([0, 2, 4]), tensor([1, 3, 5]), tensor([ 6,  8, 10]), tensor([7, 9])]
 
@@ -42,14 +41,22 @@ def process_shuffle():
     print(list(DataLoader(ds, num_workers=0, batch_size=3)))
     # [tensor([8, 1, 2]), tensor([0, 6, 7]), tensor([5, 3, 4]), tensor([ 9, 10])]
 
+    # Single-process loading and drop_last
+    print(list(DataLoader(ds, num_workers=0, batch_size=3, drop_last=True)))
+    # [tensor([6, 9, 0]), tensor([3, 1, 5]), tensor([2, 7, 4])]
+
     # Mult-process loading with two worker processes
-    # Worker 0 fetched [3, 4].  Worker 1 fetched [5, 6].
     print(list(DataLoader(ds, num_workers=2, batch_size=3)))
     # [tensor([8, 2, 6]), tensor([1, 0, 7]), tensor([ 5,  4, 10]), tensor([3, 9])]
+
+    # Mult-process loading with two worker processes and drop_last
+    print(list(DataLoader(ds, num_workers=2, batch_size=3, drop_last=True)))
+    # [tensor([6, 0, 1]), tensor([9, 3, 5]), tensor([2, 4, 8])]
 
     # With even more workers
     print(list(DataLoader(ds, num_workers=20, batch_size=3)))
     # [tensor([8]), tensor([1]), tensor([2]), tensor([0]), tensor([6]), tensor([7]), tensor([5]), tensor([3]), tensor([4]), tensor([9]), tensor([10])]
+
 
 
 if __name__ == '__main__':
