@@ -64,7 +64,7 @@ There is a very strange period, that is, using the official cifar file can alway
 
 Based on the current big data training needs (tens of millions or even hundreds of millions), it is necessary to further optimize the training environment. In the implementation of pytoch, more data can be loaded and preprocessed synchronously through multiple processes. However, each process keeps a copy of the data, although they only need some of it.
 
-The warehouse defines an iteratable dataset class for loading large-scale data, which can ensure that each process retains only the part of data it needs.
+In conventional map-style dataset usage, the sampler used in main process and distribute indices for sub-processes. From v1.2, pytorch provides a new iterable-style dataset class `IterableDataset`, it can define and use sampler in every process. The warehouse defines an iterable-style dataset class for loading large-scale data, which can ensure that each process retains only the part of data it needs.
 
 ## Maintainers
 
