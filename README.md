@@ -21,125 +21,24 @@ The complete `MPDataset` implementation has been integrated into the [zcls](http
 
 The following are the test results based on cifar100:
 
-<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;}
-.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
-  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
-.tg .tg-baqh{text-align:center;vertical-align:top}
-.tg .tg-c3ow{border-color:inherit;text-align:center;vertical-align:top}
-</style>
-<table class="tg">
-<thead>
-  <tr>
-    <th class="tg-c3ow">arch</th>
-    <th class="tg-c3ow">dataset</th>
-    <th class="tg-c3ow">shuffle</th>
-    <th class="tg-c3ow">gpu</th>
-    <th class="tg-c3ow">top1</th>
-    <th class="tg-c3ow">top5</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td class="tg-c3ow">sfv1_3g1x</td>
-    <td class="tg-c3ow">CIFAR100</td>
-    <td class="tg-c3ow">no<br></td>
-    <td class="tg-c3ow">1</td>
-    <td class="tg-c3ow">67.300</td>
-    <td class="tg-c3ow">90.440</td>
-  </tr>
-  <tr>
-    <td class="tg-c3ow">sfv1_3g1x</td>
-    <td class="tg-c3ow">MPDataset</td>
-    <td class="tg-c3ow">no</td>
-    <td class="tg-c3ow">1</td>
-    <td class="tg-c3ow">61.760</td>
-    <td class="tg-c3ow">87.130</td>
-  </tr>
-  <tr>
-    <td class="tg-c3ow">sfv1_3g1x</td>
-    <td class="tg-c3ow">GeneralDataset</td>
-    <td class="tg-c3ow">no<br></td>
-    <td class="tg-c3ow">1</td>
-    <td class="tg-c3ow">1.150</td>
-    <td class="tg-c3ow">5.010</td>
-  </tr>
-  <tr>
-    <td class="tg-c3ow">sfv1_3g1x</td>
-    <td class="tg-c3ow">CIFAR100</td>
-    <td class="tg-c3ow">yes<br></td>
-    <td class="tg-c3ow">1</td>
-    <td class="tg-c3ow">67.620</td>
-    <td class="tg-c3ow">90.880</td>
-  </tr>
-  <tr>
-    <td class="tg-baqh">sfv1_3g1x</td>
-    <td class="tg-baqh">MPDataset</td>
-    <td class="tg-baqh">yes<br></td>
-    <td class="tg-baqh">1</td>
-    <td class="tg-baqh">62.730</td>
-    <td class="tg-baqh">87.830</td>
-  </tr>
-  <tr>
-    <td class="tg-baqh">sfv1_3g1x</td>
-    <td class="tg-baqh">GeneralDataset</td>
-    <td class="tg-baqh">yes</td>
-    <td class="tg-baqh">1</td>
-    <td class="tg-baqh">62.520</td>
-    <td class="tg-baqh">87.370</td>
-  </tr>
-  <tr>
-    <td class="tg-baqh">sfv1_3g1x</td>
-    <td class="tg-baqh">CIFAR100</td>
-    <td class="tg-baqh">no<br></td>
-    <td class="tg-baqh">4</td>
-    <td class="tg-baqh">66.410</td>
-    <td class="tg-baqh">90.380</td>
-  </tr>
-  <tr>
-    <td class="tg-baqh">sfv1_3g1x</td>
-    <td class="tg-baqh">MPDataset</td>
-    <td class="tg-baqh">no</td>
-    <td class="tg-baqh">4</td>
-    <td class="tg-baqh">60.480</td>
-    <td class="tg-baqh">86.630</td>
-  </tr>
-  <tr>
-    <td class="tg-baqh">sfv1_3g1x</td>
-    <td class="tg-baqh">GeneralDataset</td>
-    <td class="tg-baqh">no<br></td>
-    <td class="tg-baqh">4</td>
-    <td class="tg-baqh">1.000</td>
-    <td class="tg-baqh">5.000</td>
-  </tr>
-  <tr>
-    <td class="tg-baqh">sfv1_3g1x</td>
-    <td class="tg-baqh">CIFAR100</td>
-    <td class="tg-baqh">yes<br></td>
-    <td class="tg-baqh">4</td>
-    <td class="tg-baqh">66.860</td>
-    <td class="tg-baqh">90.310</td>
-  </tr>
-  <tr>
-    <td class="tg-baqh">sfv1_3g1x</td>
-    <td class="tg-baqh">MPDataset</td>
-    <td class="tg-baqh">yes<br></td>
-    <td class="tg-baqh">4</td>
-    <td class="tg-baqh">61.570</td>
-    <td class="tg-baqh">86.860</td>
-  </tr>
-  <tr>
-    <td class="tg-baqh">sfv1_3g1x</td>
-    <td class="tg-baqh">GeneralDataset</td>
-    <td class="tg-baqh">yes</td>
-    <td class="tg-baqh">4</td>
-    <td class="tg-baqh">61.570</td>
-    <td class="tg-baqh">86.970</td>
-  </tr>
-</tbody>
-</table>
+|    arch   |     dataset    | shuffle | gpu |  top1  |  top5  |
+|:---------:|:--------------:|:-------:|:---:|:------:|:------:|
+| sfv1_3g1x |    CIFAR100    |    no   |  1  | 67.300 | 90.440 |
+| sfv1_3g1x |    MPDataset   |    no   |  1  | 61.760 | 87.130 |
+| sfv1_3g1x | GeneralDataset |    no   |  1  |  1.150 |  5.010 |
+| sfv1_3g1x |    CIFAR100    |   yes   |  1  | 67.620 | 90.880 |
+| sfv1_3g1x |    MPDataset   |   yes   |  1  | 62.730 | 87.830 |
+| sfv1_3g1x | GeneralDataset |   yes   |  1  | 62.520 | 87.370 |
+| sfv1_3g1x |    CIFAR100    |    no   |  4  | 66.410 | 90.380 |
+| sfv1_3g1x |    MPDataset   |    no   |  4  | 60.480 | 86.630 |
+| sfv1_3g1x | GeneralDataset |    no   |  4  |  1.000 |  5.000 |
+| sfv1_3g1x |    CIFAR100    |   yes   |  4  | 66.860 | 90.310 |
+| sfv1_3g1x |    MPDataset   |   yes   |  4  | 61.570 | 86.860 |
+| sfv1_3g1x | GeneralDataset |   yes   |  4  | 61.570 | 86.970 |
+
+* for `dataset` item, refer to [Dataset](https://zcls.readthedocs.io/en/latest/)
+
+There is no obvious difference in accuracy, even better (because I created the data file according to the original data loading order, so I can get better results by disrupting the data first)
 
 ## Table of Contents
 
