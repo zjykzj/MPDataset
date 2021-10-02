@@ -18,7 +18,6 @@ from zcls.config.key_word import KEY_IMGS, KEY_TARGETS, KEY_CLASSES
 from zcls.data.datasets.build import build_dataset
 
 
-
 def get_dataset(cfg_file, is_train=False):
     cfg.merge_from_file(cfg_file)
     dataset = build_dataset(cfg, is_train=is_train)
