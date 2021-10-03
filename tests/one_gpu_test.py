@@ -58,7 +58,6 @@ def process_shuffle():
     # [tensor([8]), tensor([1]), tensor([2]), tensor([0]), tensor([6]), tensor([7]), tensor([5]), tensor([3]), tensor([4]), tensor([9]), tensor([10])]
 
 
-
 if __name__ == '__main__':
     # note: for one-GPU/all-CPU training/testing，you should use DataLoader's drop_last param
     process_no_shuffle()
