@@ -8,13 +8,13 @@
 """
 
 import os
-import json
 
+import numpy as np
 from PIL import Image
 from tqdm import tqdm
 
 from zcls.config import cfg
-from zcls.config.key_word import KEY_IMGS, KEY_TARGETS, KEY_CLASSES
+from zcls.config.key_word import KEY_DATASET, KEY_CLASSES, KEY_SEP
 from zcls.data.datasets.build import build_dataset
 
 
@@ -26,30 +26,11 @@ def get_dataset(cfg_file, is_train=False):
 
 
 def process(dataset, dst_root):
-    assert not os.path.exists(dst_root)
-    os.makedirs(dst_root)
-
-    classes = dataset.classes
-    for i, (image, target) in tqdm(enumerate(iter(dataset))):
-        assert isinstance(image, Image.Image)
-
-        cls_name = classes[target]
-        cls_dir = os.path.join(dst_root, cls_name)
-        if not os.path.exists(cls_dir):
-            os.makedirs(cls_dir)
-
-        img_path = os.path.join(cls_dir, f'{i}.jpg')
-        assert not os.path.exists(img_path)
-        image.save(img_path)
-
-
-def process_v2(dataset, dst_root):
     if not os.path.exists(dst_root):
         os.makedirs(dst_root)
     assert os.path.isdir(dst_root)
 
-    img_list = list()
-    target_list = list()
+    data_list = list()
     class_list = dataset.classes
     for i, (image, target) in tqdm(enumerate(iter(dataset))):
         assert isinstance(image, Image.Image)
@@ -63,22 +44,16 @@ def process_v2(dataset, dst_root):
         if not os.path.exists(img_path):
             image.save(img_path)
 
-        img_list.append(img_path)
-        target_list.append(target)
+        data_list.append([img_path, str(target)])
 
-    return {
-        KEY_IMGS: img_list,
-        KEY_CLASSES: class_list,
-        KEY_TARGETS: target_list
-    }
+    return data_list, class_list
 
 
-def save_to_json(data_dict, json_path):
-    assert isinstance(data_dict, dict)
-    assert not os.path.exists(json_path)
+def save_to_csv(data_list, csv_path):
+    assert isinstance(data_list, list)
+    assert not os.path.exists(csv_path)
 
-    with open(json_path, 'w') as f:
-        json.dump(data_dict, f)
+    np.savetxt(csv_path, np.array(data_list), delimiter=KEY_SEP)
 
 
 if __name__ == '__main__':
@@ -86,17 +61,23 @@ if __name__ == '__main__':
     cfg_file = 'tools/data/cifar100.yaml'
     test_dataset = get_dataset(cfg_file, is_train=False)
 
-    dst_root = '/home/zj/data/cifar/test'
-    data_dict = process_v2(test_dataset, dst_root)
+    dst_root = '/home/zj/data/cifar/imgs/test'
+    data_list, class_list = process(test_dataset, dst_root)
 
-    json_path = '/home/zj/data/cifar/cifar100_test.json'
-    save_to_json(data_dict, json_path)
+    csv_path = os.path.join('/home/zj/data/cifar/test/', KEY_DATASET)
+    save_to_csv(data_list, csv_path)
+
+    csv_path = os.path.join('/home/zj/data/cifar/test/', KEY_CLASSES)
+    save_to_csv(class_list, csv_path)
 
     print('train ...')
     train_dataset = get_dataset(cfg_file, is_train=True)
 
-    dst_root = '/home/zj/data/cifar/train'
-    data_dict = process_v2(train_dataset, dst_root)
+    dst_root = '/home/zj/data/cifar/imgs/train'
+    data_list, class_list = process(train_dataset, dst_root)
 
-    json_path = '/home/zj/data/cifar/cifar100_train.json'
-    save_to_json(data_dict, json_path)
+    csv_path = os.path.join('/home/zj/data/cifar/train/', KEY_DATASET)
+    save_to_csv(data_list, csv_path)
+
+    csv_path = os.path.join('/home/zj/data/cifar/train/', KEY_CLASSES)
+    save_to_csv(class_list, csv_path)
