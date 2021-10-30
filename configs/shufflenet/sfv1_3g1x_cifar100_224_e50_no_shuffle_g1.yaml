@@ -1,9 +1,9 @@
-NUM_GPUS: 4
+NUM_GPUS: 1
 NUM_NODES: 1
 RANK_ID: 0
 DIST_BACKEND: "nccl"
 RNG_SEED: 1
-OUTPUT_DIR: 'outputs/mp/sfv1_3g1x_cifar100_224_e50_shuffle_g4'
+OUTPUT_DIR: 'outputs/shufflenet/sfv1_3g1x_cifar100_224_e50_no_shuffle_g1'
 TRAIN:
   LOG_STEP: 10
   GRADIENT_ACCUMULATE_STEP: 1
@@ -18,20 +18,21 @@ DATASET:
   TEST_ROOT: './data/cifar'
   TOP_K: (1, 5)
 TRANSFORM:
-  TRAIN_METHODS: ('Resize', 'RandomCrop', 'RandomHorizontalFlip', 'AUTO_AUGMENT', 'ToTensor', 'Normalize')
-  TEST_METHODS: ('Resize', 'CenterCrop', 'ToTensor', 'Normalize')
-  TRAIN_RESIZE: (224, )
-  TEST_RESIZE: (224, )
-  TRAIN_CROP: (224, 224)
-  TEST_CROP: (224, 224)
-  AUGMENT_POLICY: "cifar10"
-  MEAN: (0.445, 0.445, 0.445)
-  STD: (0.225, 0.225, 0.225)
+  TRAIN_METHODS: ('Resize', 'RandomCrop', 'HorizontalFlip', 'AutoAugment', 'Normalize', 'ToTensor')
+  TEST_METHODS: ('Resize', 'CenterCrop', 'Normalize', 'ToTensor')
+  TRAIN_RESIZE: ((256, ), 1, 1.0)
+  TEST_RESIZE: ((224, ), 1, 1.0)
+  RANDOM_CROP: ((224, 224), 1.0)
+  TEST_CENTER_CROP: ((224, 224), 1.0)
+  HORIZONTAL_FLIP: 0.5
+  AUTOAUGMENT: ("cifar10", 0.5)
+  NORMALIZE: ((0.445, 0.445, 0.445), (0.225, 0.225, 0.225), 255.0, 1.0)
+  TO_TENSOR: 1.0
 DATALOADER:
-  TRAIN_BATCH_SIZE: 32
-  TEST_BATCH_SIZE: 32
+  TRAIN_BATCH_SIZE: 96
+  TEST_BATCH_SIZE: 96
   NUM_WORKERS: 4
-  RANDOM_SAMPLE: True
+  RANDOM_SAMPLE: False
   PREFETCHER: True
 MODEL:
   CONV:
@@ -66,18 +67,18 @@ MODEL:
     NAME: 'CrossEntropyLoss'
 OPTIMIZER:
   NAME: 'SGD'
-  LR: 0.04
+  LR: 0.0375
   MOMENTUM: 0.9
   WEIGHT_DECAY:
     DECAY: 1e-5
     NO_BIAS: True
     NO_NORM: True
 LR_SCHEDULER:
-  NAME: 'MultiStepLR'
+  NAME: 'CosineAnnealingLR'
   IS_WARMUP: True
   GAMMA: 0.1
-  MULTISTEP_LR:
-    MILESTONES: [ 10, 15, 20 ]
   WARMUP:
     ITERATION: 5
     MULTIPLIER: 1.0
+  COSINE_ANNEALING_LR:
+    MINIMAL_LR: 1e-5
