@@ -23,18 +23,18 @@ The following are the test results based on `cifar100`:
 
 |    arch   |     dataset    | shuffle | gpu |  top1  |  top5  |
 |:---------:|:--------------:|:-------:|:---:|:------:|:------:|
-| sfv1_3g1x |    CIFAR100    |    no   |  1  | 67.300 | 90.440 |
-| sfv1_3g1x |    MPDataset   |    no   |  1  | 61.760 | 87.130 |
-| sfv1_3g1x | GeneralDataset |    no   |  1  |  1.150 |  5.010 |
-| sfv1_3g1x |    CIFAR100    |   yes   |  1  | 67.620 | 90.880 |
-| sfv1_3g1x |    MPDataset   |   yes   |  1  | 62.730 | 87.830 |
-| sfv1_3g1x | GeneralDataset |   yes   |  1  | 62.520 | 87.370 |
-| sfv1_3g1x |    CIFAR100    |    no   |  4  | 66.410 | 90.380 |
-| sfv1_3g1x |    MPDataset   |    no   |  4  | 60.480 | 86.630 |
-| sfv1_3g1x | GeneralDataset |    no   |  4  |  1.000 |  5.000 |
-| sfv1_3g1x |    CIFAR100    |   yes   |  4  | 66.860 | 90.310 |
-| sfv1_3g1x |    MPDataset   |   yes   |  4  | 61.570 | 86.860 |
-| sfv1_3g1x | GeneralDataset |   yes   |  4  | 61.570 | 86.970 |
+| sfv1_3g1x |    CIFAR100    |    no   |  1  | 69.470 | 91.350 |
+| sfv1_3g1x |    MPDataset   |    no   |  1  | 67.340 | 89.560 |
+| sfv1_3g1x | GeneralDataset |    no   |  1  |  1.010 |  4.960 |
+| sfv1_3g1x |    CIFAR100    |   yes   |  1  | 70.350 | 91.040 |
+| sfv1_3g1x |    MPDataset   |   yes   |  1  | 68.000 | 90.030 |
+| sfv1_3g1x | GeneralDataset |   yes   |  1  | 68.680 | 90.660 |
+| sfv1_3g1x |    CIFAR100    |    no   |  3  | 69.716 | 91.112 |
+| sfv1_3g1x |    MPDataset   |    no   |  3  | 67.367 | 89.652 |
+| sfv1_3g1x | GeneralDataset |    no   |  3  |  1.420 |  5.879 |
+| sfv1_3g1x |    CIFAR100    |   yes   |  3  | 70.756 | 91.972 |
+| sfv1_3g1x |    MPDataset   |   yes   |  3  | 68.806 | 90.252 |
+| sfv1_3g1x | GeneralDataset |   yes   |  3  | 68.656 | 90.472 |
 
 * for `dataset` item, refer to [Dataset](https://zcls.readthedocs.io/en/latest/)
   * `CIFAR100`: use the data class provided by pytorch
