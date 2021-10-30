@@ -1,0 +1,83 @@
+NUM_GPUS: 1
+NUM_NODES: 1
+RANK_ID: 0
+DIST_BACKEND: "nccl"
+RNG_SEED: 1
+OUTPUT_DIR: 'outputs/resnet/r50_cub_224_e50_shuffle_g1_v2'
+TRAIN:
+  LOG_STEP: 10
+  GRADIENT_ACCUMULATE_STEP: 1
+  MAX_EPOCH: 50
+  SAVE_EPOCH: 1
+  EVAL_EPOCH: 1
+  RESUME: False
+  USE_TENSORBOARD: True
+DATASET:
+  NAME: 'GeneralDataset'
+  TRAIN_ROOT: './data/cub/imgs/train'
+  TEST_ROOT: './data/cub/imgs/test'
+  TOP_K: (1, 5)
+TRANSFORM:
+  TRAIN_METHODS: ('Resize', 'RandomCrop', 'HorizontalFlip', 'AutoAugment', 'Normalize', 'ToTensor')
+  TEST_METHODS: ('Resize', 'CenterCrop', 'Normalize', 'ToTensor')
+  TRAIN_RESIZE: ((256, ), 1, 1.0)
+  TEST_RESIZE: ((224, ), 1, 1.0)
+  RANDOM_CROP: ((224, 224), 1.0)
+  TEST_CENTER_CROP: ((224, 224), 1.0)
+  HORIZONTAL_FLIP: 0.5
+  AUTOAUGMENT: ("cifar10", 0.5)
+  NORMALIZE: ((0.445, 0.445, 0.445), (0.225, 0.225, 0.225), 255.0, 1.0)
+  TO_TENSOR: 1.0
+DATALOADER:
+  TRAIN_BATCH_SIZE: 96
+  TEST_BATCH_SIZE: 96
+  NUM_WORKERS: 4
+  RANDOM_SAMPLE: True
+  PREFETCHER: True
+MODEL:
+  CONV:
+    TYPE: 'Conv2d'
+  NORM:
+    TYPE: 'BatchNorm2d'
+    SYNC_BN: False
+    FIX_BN: False
+    PARTIAL_BN: False
+  ACT:
+    TYPE: 'ReLU'
+  BACKBONE:
+    NAME: 'ResNet'
+    IN_PLANES: 3
+    ARCH: 'resnet50'
+    BASE_PLANES: 64
+    LAYER_PLANES: (64, 128, 256, 512)
+    DOWNSAMPLES: (0, 1, 1, 1)
+  HEAD:
+    NAME: 'GeneralHead2D'
+    FEATURE_DIMS: 2048
+    DROPOUT_RATE: 0.
+    NUM_CLASSES: 200
+  RECOGNIZER:
+    NAME: 'ResNet'
+    PRELOADED: ""
+    PRETRAINED: ""
+    PRETRAINED_NUM_CLASSES: 1000
+    ZERO_INIT_RESIDUAL: True
+  CRITERION:
+    NAME: 'CrossEntropyLoss'
+OPTIMIZER:
+  NAME: 'SGD'
+  LR: 0.0375
+  MOMENTUM: 0.9
+  WEIGHT_DECAY:
+    DECAY: 1e-5
+    NO_BIAS: True
+    NO_NORM: True
+LR_SCHEDULER:
+  NAME: 'CosineAnnealingLR'
+  IS_WARMUP: True
+  GAMMA: 0.1
+  WARMUP:
+    ITERATION: 5
+    MULTIPLIER: 1.0
+  COSINE_ANNEALING_LR:
+    MINIMAL_LR: 1e-5
